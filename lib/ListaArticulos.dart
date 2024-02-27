@@ -23,6 +23,8 @@ List<SubFamilias> _ListaSubFamilias = [];
 List<ArticulosImagenes> _ListaImagenes = [];
 List<Articulos> _ListaCompletaArticulos = [];
 List<SubFamilias> _ListaCompletaSubFamilias = [];
+List<FamiliasImagenes> _ListaFamiliasImagenes=[];
+
 bool isLoading;
 String _currentfamilia;
 String _currentsubfamilia;
@@ -65,6 +67,7 @@ class WidgetArticulos extends StatefulWidget {
   List<SubFamilias> lista_subfamilias;
   List<ArticulosImagenes> lista_imagenes;
   List<SubFamiliasImagenes> lista_imagenessubfamilias;
+  List<FamiliasImagenes> lista_imagenesfamilias;
 
   WidgetArticulos(
     this.lista_articulos,
@@ -72,10 +75,11 @@ class WidgetArticulos extends StatefulWidget {
     this.lista_subfamilias,
     this.lista_imagenes,
     this.lista_imagenessubfamilias,
+    this.lista_imagenesfamilias,
   );
   @override
   createState() => _WidgetArticulos(lista_articulos, lista_familias,
-      lista_subfamilias, lista_imagenes, lista_imagenessubfamilias);
+      lista_subfamilias, lista_imagenes, lista_imagenessubfamilias, lista_imagenesfamilias);
 }
 
 class _WidgetArticulos extends State<WidgetArticulos> {
@@ -83,20 +87,24 @@ class _WidgetArticulos extends State<WidgetArticulos> {
   List<Familias> ListaFamilias;
   List<SubFamilias> ListaSubFamilias;
   List<ArticulosImagenes> ListaImagenes;
-  List<FamiliasImagenes> listaImagenesFamilias;
   List<SubFamiliasImagenes> listaImagenesSubFamilias;
+  List<FamiliasImagenes> listaImagenesFamilias;
+
   _WidgetArticulos(
       this.ListaArticulos,
       this.ListaFamilias,
       this.ListaSubFamilias,
       this.ListaImagenes,
-      this.listaImagenesSubFamilias) {
+      this.listaImagenesSubFamilias,
+      this.listaImagenesFamilias,
+     ) {
     isLoading = true;
     _ListaArticulos = ListaArticulos;
     _ListaFamilias = ListaFamilias;
     _ListaSubFamiliasImagenes = listaImagenesSubFamilias;
     _ListaSubFamilias = ListaSubFamilias;
     _ListaImagenes = ListaImagenes;
+    _ListaFamiliasImagenes=listaImagenesFamilias;
     _ListaCompletaArticulos = ListaArticulos;
     _ListaCompletaSubFamilias = ListaSubFamilias;
   }
@@ -228,7 +236,7 @@ class _WidgetArticulos extends State<WidgetArticulos> {
 
   Widget WidgetFamilias() {
     return Container(
-        height: 130,
+        height: 140,
         child: ListView.builder(
             controller: autocontrollerFamilia,
             scrollDirection: Axis.horizontal,
@@ -236,12 +244,12 @@ class _WidgetArticulos extends State<WidgetArticulos> {
             itemExtent: 100,
             itemBuilder: (context, index) {
               var _familia = _ListaFamilias[index].familia.split(" ");
-              /*var item;
+              var item;
               if (_ListaFamiliasImagenes != null) {
                 item = _ListaFamiliasImagenes.firstWhere(
                     (obj) => obj.idfamilia == _ListaFamilias[index].idfamilia,
                     orElse: () => null);
-              }*/
+              }
               return GestureDetector(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
@@ -258,20 +266,22 @@ class _WidgetArticulos extends State<WidgetArticulos> {
                                   color: colorApp3, //Colors.lightBlue,
                                   width: (index == clase.getIndex()) ? 3 : 0),
                               borderRadius: BorderRadius.circular(12)),
-                          child: Column(
+                          child:
+                          (item!=null)?
+                          Image.memory(
+                            base64Decode(item.imagenbase64),
+                            scale: 1.0,
+                            width: _widthImagen,
+                            height:_heightImagen,
+                          ):
+                          Column(
                             children: [
                               CircleAvatar(
-                                child: Container(
+                                child:
+                                Container(
                                   width: _widthImagen,
                                   height: _heightImagen,
-                                  /*              child:
-                                    Image.asset(
-                                            'assets/familia.png',
-                                            fit: BoxFit.contain,
-                                          )*/
                                 ),
-                                /*(item == null)
-                                        ? :*/
                                 radius: 30,
                                 backgroundColor: (_currentfamilia ==
                                         _ListaFamilias[index]
@@ -279,8 +289,7 @@ class _WidgetArticulos extends State<WidgetArticulos> {
                                             .toString())
                                     ? colorApp3 //Colors.blueGrey
                                     : Colors.white,
-                                backgroundImage: AssetImage(rutaFamilia),
-                                //(_currentfamilia==_ListaFamilias[index].idfamilia.toString())?AssetImage('assets/articulo.png'):AssetImage('assets/familia.png') ,
+                                  backgroundImage: AssetImage(rutaFamilia),
                               ),
                               SizedBox(
                                 height: 4,
@@ -288,7 +297,7 @@ class _WidgetArticulos extends State<WidgetArticulos> {
                               FittedBox(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
+                                  children: [
                                     (_familia.length >= 1)
                                         ? Text(
                                             _familia[0],
@@ -341,9 +350,6 @@ class _WidgetArticulos extends State<WidgetArticulos> {
                           ),
                         )),
                   ),
-                  onLongPress: () {
-                    setState(() {});
-                  },
                   onTap: () {
                     if (_currentfamilia !=
                         _ListaFamilias[index].idfamilia.toString())
@@ -482,7 +488,7 @@ class _WidgetArticulos extends State<WidgetArticulos> {
             )
           : GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
-              child: Column(children: <Widget>[
+              child: Column(children: [
                 WidgetFamilias(),
                 WidgetSubFamilias(),
                 WidgetListaArticulos(),

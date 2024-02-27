@@ -28,6 +28,7 @@ List<Articulos> lista_articulos_WebS = [];
 List<Familias> lista_familias_WebS = [];
 List<SubFamilias> lista_subfamilias_WebS = [];
 List<ArticulosImagenes> lista_imagenesArticulos_WebS = [];
+List<FamiliasImagenes> lista_imagenesFamilias_WebS = [];
 List<SubFamiliasImagenes> lista_imagenesSubFamilias_WebS = [];
 List<INI> lista_ini_WebS = [];
 List<Remotos> lista_Remotos_WebS = [];
@@ -366,6 +367,19 @@ Future<void> getImagenesArticulos() async {
     }
   });
 }
+
+Future<void> getImagenesFamilias() async {
+  await API.getImagenesFamilias().then((response) async {
+    var lista = response.body.toString();
+    if (lista != '') {
+      Iterable list = json.decode(lista);
+      if (list.length > 0) {
+        lista_imagenesFamilias_WebS =
+            list.map((model) => FamiliasImagenes.fromJson(model)).toList();
+      }
+    }
+  });
+}
 Future<void> getImagenesSubFamilias() async {
   await API.getImagenesSubFamilias().then((response) async {
     var lista = response.body.toString();
@@ -445,6 +459,7 @@ class _Principal extends State<Principal> {
     lista_familias_WebS = [];
     lista_subfamilias_WebS = [];
     lista_imagenesArticulos_WebS = [];
+    lista_imagenesFamilias_WebS=[];
     lista_imagenesSubFamilias_WebS = [];
     lista_ini_WebS = [];
     lista_Remotos_WebS=[];
@@ -541,6 +556,7 @@ class _Principal extends State<Principal> {
     }else{
       await getImagenesArticulos();
     };
+    await getImagenesFamilias();
     setState(() {
       isLoading = false;
     });
@@ -719,7 +735,8 @@ class _Principal extends State<Principal> {
                         lista_familias_WebS,
                         lista_subfamilias_WebS,
                         lista_imagenesArticulos_WebS,
-                        lista_imagenesSubFamilias_WebS)
+                        lista_imagenesSubFamilias_WebS,
+                        lista_imagenesFamilias_WebS)
                     : (counter.page == 'Pedido')
                         ? WidgetPedido((opcion == 'add')
                             ? ListaArticulos.ArticulosConCantidad()
@@ -732,7 +749,8 @@ class _Principal extends State<Principal> {
                                 lista_familias_WebS,
                                 lista_subfamilias_WebS,
                                 lista_imagenesArticulos_WebS,
-                                lista_imagenesSubFamilias_WebS)),
+                                lista_imagenesSubFamilias_WebS,
+                                lista_imagenesFamilias_WebS)),
         floatingActionButton: FloatingActionButton(
           elevation: 10.0,
           backgroundColor: colorApp2,

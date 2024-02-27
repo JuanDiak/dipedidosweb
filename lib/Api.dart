@@ -419,7 +419,7 @@ class API {
               }
             });
             //SE CONFIGURA PARA QUE SOLO ENTREN LOS CLIENTES DADOS DE ALTA.
-            if (IDCliente=='0' && Sector=='OBLIGARCLIENTE'){
+            if (IDCliente=='0' && Sector=='xOBLIGARCLIENTE'){
               result = 'El Usuario no tiene permisos';
             }
           }
