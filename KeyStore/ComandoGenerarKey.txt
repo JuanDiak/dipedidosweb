@@ -1,0 +1,11 @@
+cd C:\Android Studio\jre\bin
+keytool -genkey -v -keystore C:\Desarrollo\diTPV\Android\Flutter\dipedidosweb\KeyStore\key.jks -keyalg RSA -keysize 2048 -validity 20000 -alias key
+
+Contrase�a: diakros1234
+
+C:\\Desarrollo\\diTPV\\Android\\Flutter\\dipedidosweb\android/key.properties
+
+storePassword=diakros1234
+keyPassword=diakros1234
+keyAlias=key
+storeFile=C:\\Desarrollo\\diTPV\\Android\\Flutter\\dipedidosweb\\KeyStore\key.jks
