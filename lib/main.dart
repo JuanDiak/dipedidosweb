@@ -15,7 +15,7 @@ class App extends StatelessWidget {
       create: (_)=>ChangePage(page:'Articulos'),
       child: MaterialApp(
           localizationsDelegates: [
-             GlobalMaterialLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
