@@ -537,7 +537,7 @@ class _Principal extends State<Principal> {
           }
         }),
         ListTile(
-          subtitle: Text("version: 1.0.1+36"),
+          subtitle: Text("version: 1.0.1+37"),
           //trailing: Icon<(Icons.arrow_forward),
         ),
       ]),

@@ -1,7 +1,7 @@
 name: dkFieldServices
 description: DIAKROS FIELD SERVICES
 
-version: 1.0.1+36
+version: 1.0.1+37
 
 environment:
   sdk: ">=2.11.0 <3.0.0"
